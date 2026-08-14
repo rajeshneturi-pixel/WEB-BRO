@@ -1,277 +1,558 @@
-/**
- * script.js — WEBROO interactions
- * - Mobile menu toggle + accessible focus trap
- * - Close on Escape / click-outside / resize
- * - Respect prefers-reduced-motion
- * - Simple IntersectionObserver-based reveal (safe fallback)
- *
- * Place this file next to index.html and style.css.
- */
+/* =========================================================
+   WEBROO — MAIN JAVASCRIPT
+   ========================================================= */
 
-(function () {
-  'use strict';
+"use strict";
 
-  // --- Helpers ---
-  const qs = (selector, ctx = document) => (ctx ? ctx.querySelector(selector) : null);
-  const qsa = (selector, ctx = document) => (ctx ? Array.from(ctx.querySelectorAll(selector)) : []);
-  const isVisible = el => !!(el && el.offsetWidth || el.offsetHeight || el.getClientRects().length);
-  const supportsIntersectionObserver = 'IntersectionObserver' in window;
 
-  // --- Elements (guarded) ---
-  const navToggle = qs('#nav-toggle');
-  const mobileMenu = qs('#mobile-menu');
-  const pageMain = qs('#main');
-  const root = document.documentElement;
+/* =========================================================
+   1. DOM ELEMENTS
+   ========================================================= */
 
-  // mobile links inside menu (safe)
-  const mobileLinks = mobileMenu ? qsa('.mobile-link, .mobile-ctas a', mobileMenu) : [];
+const navToggle = document.getElementById("nav-toggle");
+const mobileMenu = document.getElementById("mobile-menu");
 
-  // --- Motion preference ---
-  const prefersReducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const prefersReducedMotion = () => prefersReducedMotionQuery.matches;
+const mobileLinks = document.querySelectorAll(".mobile-link");
 
-  function applyReducedMotionToUI() {
-    if (prefersReducedMotion()) {
-      root.classList.add('reduced-motion');
-      // disable smooth scroll if applied by CSS / HTML
-      try { root.style.scrollBehavior = 'auto'; } catch (e) { /* ignore */ }
-    } else {
-      root.classList.remove('reduced-motion');
-      try { root.style.scrollBehavior = ''; } catch (e) { /* ignore */ }
-    }
+const allAnchorLinks = document.querySelectorAll(
+  'a[href^="#"]'
+);
+
+
+/* =========================================================
+   2. MOBILE NAVIGATION
+   ========================================================= */
+
+function openMobileMenu() {
+  if (!navToggle || !mobileMenu) {
+    return;
   }
 
-  // initialize preference and listen for changes
-  applyReducedMotionToUI();
-  if (prefersReducedMotionQuery.addEventListener) {
-    prefersReducedMotionQuery.addEventListener('change', applyReducedMotionToUI);
-  } else if (prefersReducedMotionQuery.addListener) {
-    prefersReducedMotionQuery.addListener(applyReducedMotionToUI);
+  navToggle.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+  navToggle.setAttribute(
+    "aria-label",
+    "Close navigation menu"
+  );
+
+  mobileMenu.classList.add("active");
+
+  mobileMenu.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  document.body.classList.add(
+    "menu-open"
+  );
+}
+
+
+function closeMobileMenu() {
+  if (!navToggle || !mobileMenu) {
+    return;
   }
 
-  // --- Mobile menu state ---
-  let lastFocusedElementBeforeMenu = null;
-  let focusableInMenu = [];
-  let firstFocusable = null;
-  let lastFocusable = null;
-  let menuKeyHandler = null;
+  navToggle.setAttribute(
+    "aria-expanded",
+    "false"
+  );
 
-  function updateAriaMenu(open) {
-    if (navToggle) navToggle.setAttribute('aria-expanded', String(Boolean(open)));
-    if (mobileMenu) mobileMenu.setAttribute('aria-hidden', String(!open));
+  navToggle.setAttribute(
+    "aria-label",
+    "Open navigation menu"
+  );
+
+  mobileMenu.classList.remove("active");
+
+  mobileMenu.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  document.body.classList.remove(
+    "menu-open"
+  );
+}
+
+
+function toggleMobileMenu() {
+  if (!mobileMenu) {
+    return;
   }
 
-  function collectFocusable(container) {
-    if (!container) return [];
-    const els = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
-    return Array.from(els).filter(el => !el.hasAttribute('disabled') && isVisible(el));
+  const isOpen =
+    mobileMenu.classList.contains("active");
+
+  if (isOpen) {
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
   }
+}
 
-  function trapFocus(container) {
-    focusableInMenu = collectFocusable(container);
-    if (focusableInMenu.length === 0) {
-      // ensure the container is focusable
-      container.setAttribute('tabindex', '-1');
-      container.focus();
-      return;
-    }
-    firstFocusable = focusableInMenu[0];
-    lastFocusable = focusableInMenu[focusableInMenu.length - 1];
-    // focus the first element for keyboard users
-    firstFocusable.focus();
 
-    menuKeyHandler = (e) => {
-      if (e.key === 'Tab') {
-        if (e.shiftKey && document.activeElement === firstFocusable) {
-          e.preventDefault();
-          lastFocusable.focus();
-        } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-          e.preventDefault();
-          firstFocusable.focus();
-        }
-      } else if (e.key === 'Escape' || e.key === 'Esc') {
-        closeMobileMenu();
-      }
-    };
-    container.addEventListener('keydown', menuKeyHandler);
-  }
+/* =========================================================
+   3. MOBILE MENU BUTTON
+   ========================================================= */
 
-  function releaseFocusTrap(container) {
-    if (!container) return;
-    if (menuKeyHandler) {
-      container.removeEventListener('keydown', menuKeyHandler);
-      menuKeyHandler = null;
-    }
-    if (container.hasAttribute('tabindex')) container.removeAttribute('tabindex');
-    focusableInMenu = [];
-    firstFocusable = lastFocusable = null;
-  }
+if (navToggle) {
+  navToggle.addEventListener(
+    "click",
+    toggleMobileMenu
+  );
+}
 
-  function openMobileMenu() {
-    if (!mobileMenu || !navToggle) return;
-    lastFocusedElementBeforeMenu = document.activeElement;
-    mobileMenu.classList.add('active');
-    // update ARIA
-    updateAriaMenu(true);
-    // prevent body scroll (small screens)
-    document.body.style.overflow = 'hidden';
-    trapFocus(mobileMenu);
-  }
 
-  function closeMobileMenu() {
-    if (!mobileMenu || !navToggle) return;
-    mobileMenu.classList.remove('active');
-    updateAriaMenu(false);
-    releaseFocusTrap(mobileMenu);
-    // restore body scroll
-    document.body.style.overflow = '';
-    // restore focus
-    try {
-      if (lastFocusedElementBeforeMenu && typeof lastFocusedElementBeforeMenu.focus === 'function') {
-        lastFocusedElementBeforeMenu.focus();
-      } else {
-        navToggle.focus();
-      }
-    } catch (e) { /* ignore focus errors */ }
-  }
+/* =========================================================
+   4. CLOSE MENU AFTER CLICKING A LINK
+   ========================================================= */
 
-  // Toggle handler
-  function toggleMobileMenu() {
-    if (!mobileMenu || !navToggle) return;
-    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-    if (expanded) closeMobileMenu();
-    else openMobileMenu();
-  }
+mobileLinks.forEach((link) => {
 
-  // Click outside to close
-  function onPointerDown(e) {
-    if (!mobileMenu || !mobileMenu.classList.contains('active')) return;
-    // if click/tap outside menu and not on toggle, close
-    if (!mobileMenu.contains(e.target) && e.target !== navToggle && !navToggle.contains(e.target)) {
+  link.addEventListener(
+    "click",
+    () => {
       closeMobileMenu();
     }
+  );
+
+});
+
+
+/* =========================================================
+   5. ESCAPE KEY
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (event.key === "Escape") {
+      closeMobileMenu();
+    }
+
   }
+);
 
-  // Ensure aria attributes exist (sanity)
-  function ensureAriaDefaults() {
-    if (navToggle && !navToggle.hasAttribute('aria-expanded')) navToggle.setAttribute('aria-expanded', 'false');
-    if (navToggle && !navToggle.hasAttribute('aria-controls') && mobileMenu) navToggle.setAttribute('aria-controls', mobileMenu.id || 'mobile-menu');
-    if (mobileMenu && !mobileMenu.hasAttribute('aria-hidden')) mobileMenu.setAttribute('aria-hidden', 'true');
-  }
 
-  // Close on resize if layout switches to desktop
-  let resizeTimeout = null;
-  function onResize() {
-    // Debounce
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      // if viewport becomes large (desktop nav visible in CSS at ~1000px), close menu
-      if (window.innerWidth > 1000 && mobileMenu && mobileMenu.classList.contains('active')) {
-        closeMobileMenu();
-      }
-    }, 120);
-  }
+/* =========================================================
+   6. CLICK OUTSIDE MOBILE MENU
+   ========================================================= */
 
-  // Close menu when any mobile link is clicked (allow navigation then close)
-  function initMobileLinkHandlers() {
-    if (!mobileLinks || mobileLinks.length === 0) return;
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        // small delay to allow anchor navigation/scroll
-        setTimeout(closeMobileMenu, 120);
-      });
-    });
-  }
+document.addEventListener(
+  "click",
+  (event) => {
 
-  // --- Scroll reveal (IntersectionObserver) ---
-  function initReveal() {
-    if (prefersReducedMotion()) return; // skip reveals if reduced-motion
-
-    const revealSelector = [
-      '.feature-card',
-      '.category-card',
-      '.expert-card',
-      '.timeline-step',
-      '.trust-card',
-      '.hero-card'
-    ].join(',');
-
-    const nodes = qsa(revealSelector);
-    if (nodes.length === 0 || !supportsIntersectionObserver) {
-      // fallback: reveal all immediately
-      nodes.forEach(n => n.classList.add('is-revealed'));
+    if (!mobileMenu || !navToggle) {
       return;
     }
 
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const el = entry.target;
-        if (entry.isIntersecting) {
-          el.classList.add('is-revealed');
-          // resume animations if they were paused in CSS
-          el.style.animationPlayState = '';
-        } else {
-          // pause to save CPU (optional)
-          el.style.animationPlayState = 'paused';
-        }
-      });
-    }, {
-      root: null,
-      rootMargin: '0px 0px -10% 0px',
-      threshold: 0.12
-    });
+    const clickedInsideMenu =
+      mobileMenu.contains(event.target);
 
-    nodes.forEach(n => {
-      // start paused so reveal happens when entering view
-      try { n.style.animationPlayState = 'paused'; } catch (e) { /* ignore */ }
-      obs.observe(n);
-    });
+    const clickedToggle =
+      navToggle.contains(event.target);
 
-    // Make sure hero floats respect reduced-motion
-    const floats = qsa('.float-a, .float-b, .float-c');
-    floats.forEach(f => {
-      f.style.animationPlayState = prefersReducedMotion() ? 'paused' : '';
-    });
-  }
-
-  // --- Initialization ---
-  function init() {
-    ensureAriaDefaults();
-
-    if (navToggle) {
-      navToggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleMobileMenu();
-      });
+    if (
+      mobileMenu.classList.contains("active") &&
+      !clickedInsideMenu &&
+      !clickedToggle
+    ) {
+      closeMobileMenu();
     }
 
-    // close on global Escape as well
-    document.addEventListener('keydown', (e) => {
-      if ((e.key === 'Escape' || e.key === 'Esc') && mobileMenu && mobileMenu.classList.contains('active')) {
-        closeMobileMenu();
+  }
+);
+
+
+/* =========================================================
+   7. CLOSE MOBILE MENU WHEN WINDOW RESIZES
+   ========================================================= */
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    if (
+      window.innerWidth > 1000 &&
+      mobileMenu &&
+      mobileMenu.classList.contains("active")
+    ) {
+      closeMobileMenu();
+    }
+
+  }
+);
+
+
+/* =========================================================
+   8. SMOOTH INTERNAL NAVIGATION
+   ========================================================= */
+
+allAnchorLinks.forEach((link) => {
+
+  link.addEventListener(
+    "click",
+    (event) => {
+
+      const href =
+        link.getAttribute("href");
+
+      if (
+        !href ||
+        href === "#" ||
+        href === "#!"
+      ) {
+        return;
       }
-    });
 
-    // click/tap outside to close
-    document.addEventListener('pointerdown', onPointerDown);
+      const target =
+        document.querySelector(href);
 
-    // close on resize if needed
-    window.addEventListener('resize', onResize);
+      if (!target) {
+        return;
+      }
 
-    initMobileLinkHandlers();
+      event.preventDefault();
 
-    // init reveal animations
-    initReveal();
+      closeMobileMenu();
 
-    // apply reduced motion UI changes (class toggles etc.)
-    applyReducedMotionToUI();
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   9. DEMO PROFILE LINKS
+   ========================================================= */
+
+const demoProfileLinks =
+  document.querySelectorAll(
+    '.expert-card a[href="#"]'
+  );
+
+
+demoProfileLinks.forEach((link) => {
+
+  link.addEventListener(
+    "click",
+    (event) => {
+
+      event.preventDefault();
+
+      const expertCard =
+        link.closest(".expert-card");
+
+      if (!expertCard) {
+        return;
+      }
+
+      const expertName =
+        expertCard.querySelector(
+          ".expert-name"
+        );
+
+      if (expertName) {
+
+        const name =
+          expertName.textContent.trim();
+
+        showMessage(
+          `${name}'s profile will be available soon.`
+        );
+
+      }
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   10. TEMPORARY MESSAGE
+   ========================================================= */
+
+function showMessage(message) {
+
+  const existingMessage =
+    document.querySelector(
+      ".webroo-message"
+    );
+
+  if (existingMessage) {
+    existingMessage.remove();
   }
 
-  // Run on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+
+  const messageBox =
+    document.createElement("div");
+
+  messageBox.className =
+    "webroo-message";
+
+  messageBox.textContent =
+    message;
+
+
+  messageBox.style.position =
+    "fixed";
+
+  messageBox.style.left =
+    "50%";
+
+  messageBox.style.bottom =
+    "25px";
+
+  messageBox.style.transform =
+    "translateX(-50%)";
+
+  messageBox.style.zIndex =
+    "9999";
+
+  messageBox.style.padding =
+    "13px 20px";
+
+  messageBox.style.borderRadius =
+    "10px";
+
+  messageBox.style.background =
+    "#121925";
+
+  messageBox.style.color =
+    "#ffffff";
+
+  messageBox.style.border =
+    "1px solid rgba(255,255,255,0.12)";
+
+  messageBox.style.boxShadow =
+    "0 15px 40px rgba(0,0,0,0.35)";
+
+  messageBox.style.fontSize =
+    "14px";
+
+  messageBox.style.fontWeight =
+    "600";
+
+
+  document.body.appendChild(
+    messageBox
+  );
+
+
+  setTimeout(() => {
+
+    messageBox.style.opacity =
+      "0";
+
+    messageBox.style.transition =
+      "opacity 0.3s ease";
+
+  }, 2200);
+
+
+  setTimeout(() => {
+
+    messageBox.remove();
+
+  }, 2600);
+
+}
+
+
+/* =========================================================
+   11. SCROLL REVEAL
+   ========================================================= */
+
+const revealElements =
+  document.querySelectorAll(
+    ".feature-card, .category-card, .expert-card, .timeline-step, .trust-card"
+  );
+
+
+if (
+  "IntersectionObserver" in window
+) {
+
+  const revealObserver =
+    new IntersectionObserver(
+      (entries, observer) => {
+
+        entries.forEach((entry) => {
+
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add(
+            "is-visible"
+          );
+
+          observer.unobserve(
+            entry.target
+          );
+
+        });
+
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+
+  revealElements.forEach(
+    (element) => {
+
+      element.classList.add(
+        "reveal"
+      );
+
+      revealObserver.observe(
+        element
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   12. ACTIVE NAVIGATION
+   ========================================================= */
+
+const sections =
+  document.querySelectorAll(
+    "main section[id]"
+  );
+
+const desktopNavLinks =
+  document.querySelectorAll(
+    ".nav-links a"
+  );
+
+
+if (
+  "IntersectionObserver" in window
+) {
+
+  const sectionObserver =
+    new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach(
+          (entry) => {
+
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            const sectionId =
+              entry.target.id;
+
+            desktopNavLinks.forEach(
+              (link) => {
+
+                link.classList.remove(
+                  "active"
+                );
+
+                if (
+                  link.getAttribute(
+                    "href"
+                  ) === `#${sectionId}`
+                ) {
+
+                  link.classList.add(
+                    "active"
+                  );
+
+                }
+
+              }
+            );
+
+          }
+        );
+
+      },
+      {
+        rootMargin:
+          "-25% 0px -65% 0px"
+      }
+    );
+
+
+  sections.forEach(
+    (section) => {
+
+      sectionObserver.observe(
+        section
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   13. UPDATE CURRENT YEAR
+   ========================================================= */
+
+const footerYear =
+  document.querySelector(
+    ".footer-note p"
+  );
+
+
+if (footerYear) {
+
+  const currentYear =
+    new Date().getFullYear();
+
+  footerYear.textContent =
+    `© ${currentYear} WEBROO. All rights reserved.`;
+
+}
+
+
+/* =========================================================
+   14. INITIALIZE
+   ========================================================= */
+
+function initializeWEBROO() {
+
+  if (mobileMenu) {
+
+    mobileMenu.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
   }
 
-})();
+  if (navToggle) {
+
+    navToggle.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+  }
+
+}
+
+
+initializeWEBROO();
