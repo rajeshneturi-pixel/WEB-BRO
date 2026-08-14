@@ -3,44 +3,964 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WEBROO | Connect with Top Web Developers, Designers & Digital Pros</title>
-  <meta name="description" content="WEBROO is the modern startup platform connecting businesses with vetted web developers, UI/UX designers, and digital freelancers.">
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- CSS Connection -->
-  <link rel="stylesheet" href="./style.css">
+
+  <meta
+    name="description"
+    content="WEBROO connects businesses with professional web designers and developers."
+  >
+
+  <title>WEBROO — Find Web Designers & Developers</title>
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <!-- Ambient Glow Background Orbs -->
-  <div class="ambient-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-  <!-- Header Navigation -->
-  <header class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="#" class="brand-logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 10L16 4L26 10V22L16 28L6 22V10Z" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linejoin="round"/>
-            <path d="M11 14L16 11L21 14M16 11V21" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logo-grad" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#6366f1"/>
-                <stop offset="1" stop-color="#8b5cf6"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">WEB<span class="highlight">ROO</span></span>
+
+  <!-- ================= HEADER ================= -->
+
+  <header class="site-header">
+
+    <div class="container header-inner">
+
+      <a href="#home" class="brand" aria-label="WEBROO Home">
+        <span class="logo-mark">&lt;/&gt;</span>
+        <span>WEBROO</span>
       </a>
-      <nav class="nav-menu" id="nav-menu">
-        <ul class="nav-links">
-          <li><a href="#why-webroo" class="nav-link">Why WEBROO</a></li>
-          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-          <li><a href="#categories" class="nav-link">Categories</a></li>
+
+      <nav class="main-nav">
+        <a href="#home">Home</a>
+        <a href="#experts">Find Experts</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#developers">For Developers</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <div class="header-actions">
+
+        <a href="#post-project" class="btn btn-primary">
+          Post a Project
+        </a>
+
+        <a href="#developers" class="btn btn-secondary">
+          Join as Expert
+        </a>
+
+        <button
+          id="nav-toggle"
+          class="nav-toggle"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Mobile Navigation -->
+
+    <nav id="mobile-menu" class="mobile-nav">
+
+      <a href="#home">Home</a>
+      <a href="#experts">Find Experts</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#developers">For Developers</a>
+      <a href="#about">About</a>
+
+      <div class="mobile-buttons">
+        <a href="#post-project" class="btn btn-primary">
+          Post a Project
+        </a>
+
+        <a href="#developers" class="btn btn-secondary">
+          Join as Expert
+        </a>
+      </div>
+
+    </nav>
+
+  </header>
+
+
+  <main>
+
+    <!-- ================= HERO ================= -->
+
+    <section id="home" class="hero">
+
+      <div class="hero-background"></div>
+
+      <div class="container hero-grid">
+
+        <div class="hero-content">
+
+          <div class="badge">
+            Connecting businesses with digital talent
+          </div>
+
+          <h1>
+            Build Your Website
+            <span>With the Right Expert.</span>
+          </h1>
+
+          <p>
+            WEBROO connects businesses and clients with skilled
+            web designers and developers who can turn ideas into
+            professional digital experiences.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="#experts" class="btn btn-primary btn-large">
+              Find a Web Expert
+            </a>
+
+            <a href="#post-project" class="btn btn-outline btn-large">
+              Post Your Project
+            </a>
+
+          </div>
+
+          <div class="hero-stats">
+
+            <div>
+              <strong>500+</strong>
+              <span>Experts</span>
+            </div>
+
+            <div>
+              <strong>1,000+</strong>
+              <span>Projects</span>
+            </div>
+
+            <div>
+              <strong>4.8/5</strong>
+              <span>Average Rating</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Hero Visual -->
+
+        <div class="hero-visual">
+
+          <div class="floating-card card-one">
+
+            <div class="avatar blue">
+              AK
+            </div>
+
+            <div>
+              <strong>Arjun Kumar</strong>
+              <span>Frontend Developer</span>
+
+              <small>
+                ⭐ 4.9 &nbsp; • &nbsp; 32 Projects
+              </small>
+            </div>
+
+          </div>
+
+
+          <div class="floating-card card-two">
+
+            <div class="avatar purple">
+              PN
+            </div>
+
+            <div>
+              <strong>Priya Nair</strong>
+              <span>UI/UX Designer</span>
+
+              <small>
+                ⭐ 4.8 &nbsp; • &nbsp; 24 Projects
+              </small>
+            </div>
+
+          </div>
+
+
+          <div class="floating-card card-three">
+
+            <div class="avatar green">
+              VS
+            </div>
+
+            <div>
+              <strong>Vikram Singh</strong>
+              <span>Web Designer</span>
+
+              <small>
+                ⭐ 4.9 &nbsp; • &nbsp; 41 Projects
+              </small>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= PROBLEM ================= -->
+
+    <section id="about" class="section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-label">
+            THE PROBLEM
+          </span>
+
+          <h2>
+            Finding the Right Developer
+            Shouldn't Be Difficult.
+          </h2>
+
+          <p>
+            Businesses often struggle to find reliable
+            professionals for their website projects.
+          </p>
+
+        </div>
+
+
+        <div class="cards three">
+
+          <article class="info-card">
+
+            <div class="icon">
+              🔎
+            </div>
+
+            <h3>
+              Hard to Find Reliable Professionals
+            </h3>
+
+            <p>
+              Finding skilled and trustworthy web professionals
+              can take a lot of time.
+            </p>
+
+          </article>
+
+
+          <article class="info-card">
+
+            <div class="icon">
+              💰
+            </div>
+
+            <h3>
+              Unclear Pricing
+            </h3>
+
+            <p>
+              Businesses often don't know how much a website
+              project should realistically cost.
+            </p>
+
+          </article>
+
+
+          <article class="info-card">
+
+            <div class="icon">
+              ⚖️
+            </div>
+
+            <h3>
+              Difficult Comparison
+            </h3>
+
+            <p>
+              Comparing portfolios, skills, reviews and
+              experience can become confusing.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= SOLUTION ================= -->
+
+    <section class="section dark-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-label">
+            THE WEBROO SOLUTION
+          </span>
+
+          <h2>
+            Discover. Compare. Connect.
+          </h2>
+
+          <p>
+            A simple platform designed to connect businesses
+            with the right digital professionals.
+          </p>
+
+        </div>
+
+
+        <div class="cards three">
+
+          <article class="solution-card">
+
+            <span class="number">
+              01
+            </span>
+
+            <h3>
+              Discover
+            </h3>
+
+            <p>
+              Search professionals based on skills,
+              experience and portfolio.
+            </p>
+
+          </article>
+
+
+          <article class="solution-card">
+
+            <span class="number">
+              02
+            </span>
+
+            <h3>
+              Compare
+            </h3>
+
+            <p>
+              Compare profiles, work samples,
+              ratings and starting prices.
+            </p>
+
+          </article>
+
+
+          <article class="solution-card">
+
+            <span class="number">
+              03
+            </span>
+
+            <h3>
+              Connect
+            </h3>
+
+            <p>
+              Contact the professional and discuss
+              your project directly.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <section id="how-it-works" class="section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-label">
+            HOW IT WORKS
+          </span>
+
+          <h2>
+            From Idea to Website.
+          </h2>
+
+          <p>
+            A simple process for businesses looking
+            for digital talent.
+          </p>
+
+        </div>
+
+
+        <div class="steps">
+
+          <div class="step">
+
+            <div class="step-number">
+              01
+            </div>
+
+            <h3>
+              Tell Us What You Need
+            </h3>
+
+            <p>
+              Describe your website, requirements,
+              budget and deadline.
+            </p>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              02
+            </div>
+
+            <h3>
+              Discover Experts
+            </h3>
+
+            <p>
+              Explore professionals according
+              to their skills and experience.
+            </p>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              03
+            </div>
+
+            <h3>
+              Compare & Connect
+            </h3>
+
+            <p>
+              Compare portfolios, reviews and
+              pricing before contacting them.
+            </p>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              04
+            </div>
+
+            <h3>
+              Build & Launch
+            </h3>
+
+            <p>
+              Work together and bring your
+              website idea to life.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= EXPERTS ================= -->
+
+    <section id="experts" class="section dark-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-label">
+            WEB PROFESSIONALS
+          </span>
+
+          <h2>
+            Find the Right Skill
+            for Your Project.
+          </h2>
+
+          <p>
+            Explore different types of professionals
+            you can find on WEBROO.
+          </p>
+
+        </div>
+
+
+        <div class="cards three">
+
+          <article class="expert-card">
+
+            <div class="expert-avatar blue">
+              WD
+            </div>
+
+            <div class="expert-content">
+
+              <h3>
+                Web Designer
+              </h3>
+
+              <p>
+                Creates beautiful layouts,
+                visual designs and polished websites.
+              </p>
+
+              <a href="#developers">
+                Explore Experts →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="expert-card">
+
+            <div class="expert-avatar purple">
+              UX
+            </div>
+
+            <div class="expert-content">
+
+              <h3>
+                UI/UX Designer
+              </h3>
+
+              <p>
+                Creates user-friendly interfaces,
+                wireframes and digital experiences.
+              </p>
+
+              <a href="#developers">
+                Explore Experts →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="expert-card">
+
+            <div class="expert-avatar green">
+              DEV
+            </div>
+
+            <div class="expert-content">
+
+              <h3>
+                Web Developer
+              </h3>
+
+              <p>
+                Builds responsive websites,
+                applications and technical solutions.
+              </p>
+
+              <a href="#developers">
+                Explore Experts →
+              </a>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= FEATURED EXPERTS ================= -->
+
+    <section class="section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-label">
+            FEATURED EXPERTS
+          </span>
+
+          <h2>
+            Professionals Ready to Build.
+          </h2>
+
+          <p>
+            Example profiles for the WEBROO MVP.
+          </p>
+
+        </div>
+
+
+        <div class="expert-grid">
+
+
+          <article class="profile-card">
+
+            <div class="profile-avatar blue">
+              AK
+            </div>
+
+            <h3>
+              Arjun Kumar
+            </h3>
+
+            <span class="role">
+              Frontend Developer
+            </span>
+
+            <p>
+              HTML • CSS • JavaScript • React
+            </p>
+
+            <div class="profile-info">
+              <span>⭐ 4.9</span>
+              <span>32 Projects</span>
+              <span>₹15,000+</span>
+            </div>
+
+            <button
+              class="btn btn-outline profile-button"
+              type="button"
+              data-name="Arjun Kumar"
+            >
+              View Profile
+            </button>
+
+          </article>
+
+
+          <article class="profile-card">
+
+            <div class="profile-avatar purple">
+              PN
+            </div>
+
+            <h3>
+              Priya Nair
+            </h3>
+
+            <span class="role">
+              UI/UX Designer
+            </span>
+
+            <p>
+              Figma • UI Design • Prototyping
+            </p>
+
+            <div class="profile-info">
+              <span>⭐ 4.8</span>
+              <span>24 Projects</span>
+              <span>₹12,000+</span>
+            </div>
+
+            <button
+              class="btn btn-outline profile-button"
+              type="button"
+              data-name="Priya Nair"
+            >
+              View Profile
+            </button>
+
+          </article>
+
+
+          <article class="profile-card">
+
+            <div class="profile-avatar green">
+              VS
+            </div>
+
+            <h3>
+              Vikram Singh
+            </h3>
+
+            <span class="role">
+              Web Designer
+            </span>
+
+            <p>
+              Webflow • Framer • UI Design
+            </p>
+
+            <div class="profile-info">
+              <span>⭐ 4.9</span>
+              <span>41 Projects</span>
+              <span>₹10,000+</span>
+            </div>
+
+            <button
+              class="btn btn-outline profile-button"
+              type="button"
+              data-name="Vikram Singh"
+            >
+              View Profile
+            </button>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= DEVELOPERS ================= -->
+
+    <section id="developers" class="section developer-section">
+
+      <div class="container developer-grid">
+
+        <div>
+
+          <span class="section-label">
+            FOR DEVELOPERS & DESIGNERS
+          </span>
+
+          <h2>
+            Turn Your Skills
+            Into Opportunities.
+          </h2>
+
+          <p>
+            Build your professional profile,
+            showcase your portfolio and connect
+            directly with businesses looking for
+            your skills.
+          </p>
+
+          <ul class="check-list">
+
+            <li>
+              Build your professional profile
+            </li>
+
+            <li>
+              Showcase your portfolio
+            </li>
+
+            <li>
+              Receive relevant project opportunities
+            </li>
+
+            <li>
+              Connect directly with clients
+            </li>
+
+            <li>
+              Build your reputation through reviews
+            </li>
+
+          </ul>
+
+          <a href="#post-project" class="btn btn-primary">
+            Join as an Expert
+          </a>
+
+        </div>
+
+
+        <div class="developer-box">
+
+          <div class="code-window">
+
+            <div class="window-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <pre><code>&lt;developer&gt;
+
+  skills:
+    HTML
+    CSS
+    JavaScript
+    React
+
+  status:
+    Available
+
+&lt;/developer&gt;</code></pre>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= POST PROJECT ================= -->
+
+    <section id="post-project" class="section">
+
+      <div class="container">
+
+        <div class="project-box">
+
+          <div>
+
+            <span class="section-label">
+              HAVE A PROJECT?
+            </span>
+
+            <h2>
+              Let's Build Your Idea.
+            </h2>
+
+            <p>
+              Tell us what you need and connect
+              with the right web professional.
+            </p>
+
+          </div>
+
+          <button
+            id="project-button"
+            class="btn btn-primary btn-large"
+            type="button"
+          >
+            Start a Project
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer class="site-footer">
+
+    <div class="container footer-grid">
+
+      <div>
+
+        <a href="#home" class="brand">
+          <span class="logo-mark">&lt;/&gt;</span>
+          <span>WEBROO</span>
+        </a>
+
+        <p>
+          Connecting businesses with web designers
+          and developers.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <div>
+
+          <h4>Platform</h4>
+
+          <a href="#experts">
+            Find Experts
+          </a>
+
+          <a href="#post-project">
+            Post a Project
+          </a>
+
+          <a href="#developers">
+            Join as Expert
+          </a>
+
+        </div>
+
+
+        <div>
+
+          <h4>Company</h4>
+
+          <a href="#about">
+            About
+          </a>
+
+          <a href="#how-it-works">
+            How It Works
+          </a>
+
+        </div>
+
+
+        <div>
+
+          <h4>Support</h4>
+
+          <a href="#about">
+            Help Center
+          </a>
+
+          <a href="#about">
+            Contact
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <div class="container">
+
+        <p>
+          © <span id="year"></span> WEBROO. All rights reserved.
+        </p>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
