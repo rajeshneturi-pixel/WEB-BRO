@@ -1,1 +1,263 @@
+/**
+ * script.js
+ * WEBROO — small interaction layer (mobile nav, accessibility, scroll reveal)
+ *
+ * Features:
+ * - Mobile menu toggle (aria-expanded / aria-hidden)
+ * - Focus trap inside mobile menu while open
+ * - Close on Escape and click-outside
+ * - Close mobile menu on internal link click
+ * - Respect prefers-reduced-motion: pause CSS animations if requested
+ * - IntersectionObserver to start/pause element animations when in view
+ *
+ * No external libraries required.
+ */
 
+(function () {
+  'use strict';
+
+  // Helpers
+  const qs = (sel, ctx = document) => ctx.querySelector(sel);
+  const qsa = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  const isFocusable = el => el && el.tabIndex >= 0 && !el.disabled && el.offsetParent !== null;
+
+  // DOM elements
+  const navToggle = qs('#nav-toggle');
+  const mobileMenu = qs('#mobile-menu');
+  const mobileLinks = qsa('.mobile-link, .mobile-ctas a', mobileMenu);
+  const pageMain = qs('#main');
+  const doc = document.documentElement;
+
+  // Feature: prefers-reduced-motion
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function applyReducedMotion() {
+    if (prefersReduced) {
+      // Pause CSS animations globally by setting inline styles for animated elements
+      const animatedSelectors = [
+        '.float-a', '.float-b', '.float-c',
+        '.feature-card', '.category-card', '.expert-card',
+        '.timeline-step', '.trust-card'
+      ];
+      animatedSelectors.forEach(sel => {
+        qsa(sel).forEach(el => {
+          el.style.animationDuration = '0.01ms';
+          el.style.animationIterationCount = '1';
+          el.style.transitionDuration = '0.01ms';
+        });
+      });
+      // Remove smooth scroll
+      doc.style.scrollBehavior = 'auto';
+    }
+  }
+
+  // Mobile menu functions
+  let lastFocusedElement = null;
+
+  function openMobileMenu() {
+    if (!mobileMenu || !navToggle) return;
+    lastFocusedElement = document.activeElement;
+    navToggle.setAttribute('aria-expanded', 'true');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    mobileMenu.classList.add('active');
+    // Trap focus
+    trapFocusIn(mobileMenu);
+    // prevent body scroll on small screens
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu() {
+    if (!mobileMenu || !navToggle) return;
+    navToggle.setAttribute('aria-expanded', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    mobileMenu.classList.remove('active');
+    releaseFocusTrap();
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    } else {
+      navToggle.focus();
+    }
+    document.body.style.overflow = '';
+  }
+
+  // Focus trap implementation (simple, robust)
+  let focusableElements = [];
+  let firstFocusable = null;
+  let lastFocusable = null;
+  let focusTrapHandler = null;
+
+  function trapFocusIn(container) {
+    focusableElements = Array.from(
+      container.querySelectorAll(
+        'a[href], button:not([disabled]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(isFocusable);
+
+    if (focusableElements.length === 0) {
+      // If no focusable, focus the container to keep keyboard users inside
+      container.setAttribute('tabindex', '-1');
+      container.focus();
+      return;
+    }
+
+    firstFocusable = focusableElements[0];
+    lastFocusable = focusableElements[focusableElements.length - 1];
+
+    // Focus first element
+    firstFocusable.focus();
+
+    focusTrapHandler = function (e) {
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable.focus();
+        } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable.focus();
+        }
+      } else if (e.key === 'Escape' || e.key === 'Esc') {
+        // Allow Escape to close menu
+        closeMobileMenu();
+      }
+    };
+
+    container.addEventListener('keydown', focusTrapHandler);
+  }
+
+  function releaseFocusTrap() {
+    if (!mobileMenu) return;
+    if (focusTrapHandler) {
+      mobileMenu.removeEventListener('keydown', focusTrapHandler);
+      focusTrapHandler = null;
+    }
+    if (mobileMenu.hasAttribute('tabindex')) {
+      mobileMenu.removeAttribute('tabindex');
+    }
+  }
+
+  // Click outside to close mobile menu
+  function outsideClickHandler(e) {
+    if (!mobileMenu.classList.contains('active')) return;
+    if (!mobileMenu.contains(e.target) && e.target !== navToggle) {
+      closeMobileMenu();
+    }
+  }
+
+  // Close on Escape (global, but keeps other behavior)
+  function globalKeyHandler(e) {
+    if ((e.key === 'Escape' || e.key === 'Esc') && mobileMenu.classList.contains('active')) {
+      closeMobileMenu();
+    }
+  }
+
+  // Initialize mobile menu interactions
+  function initMobileMenu() {
+    if (!navToggle || !mobileMenu) return;
+
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      if (expanded) closeMobileMenu();
+      else openMobileMenu();
+    });
+
+    // Close when clicking links inside mobile menu
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        // Give browser time to navigate/scroll, then close
+        setTimeout(() => closeMobileMenu(), 120);
+      });
+    });
+
+    // Close on click outside
+    document.addEventListener('click', outsideClickHandler);
+
+    // Escape global
+    document.addEventListener('keydown', globalKeyHandler);
+  }
+
+  // IntersectionObserver: reveal / start animations when in view
+  function initScrollReveal() {
+    if (prefersReduced) return;
+
+    const animatedElements = qsa(
+      '.feature-card, .category-card, .expert-card, .timeline-step, .trust-card, .hero-card'
+    );
+
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            const el = entry.target;
+            if (entry.isIntersecting) {
+              // Resume animations if paused by script
+              el.style.animationPlayState = 'running';
+              el.classList.add('is-revealed');
+            } else {
+              // Optionally pause animations once out of view to save CPU
+              // keep them running if you prefer
+              el.style.animationPlayState = 'paused';
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '0px 0px -10% 0px',
+          threshold: 0.12
+        }
+      );
+
+      animatedElements.forEach(el => {
+        // Pause initially so animations occur when element enters view
+        try {
+          el.style.animationPlayState = 'paused';
+        } catch (err) {
+          // ignore
+        }
+        obs.observe(el);
+      });
+
+      // For hero floating cards, we want them to animate immediately (but respect reduced-motion)
+      const floats = qsa('.float-a, .float-b, .float-c');
+      floats.forEach(f => {
+        f.style.animationPlayState = prefersReduced ? 'paused' : 'running';
+      });
+    } else {
+      // Fallback for old browsers: ensure animations are running
+      animatedElements.forEach(el => {
+        el.style.animationPlayState = 'running';
+      });
+    }
+  }
+
+  // Accessibility: ensure "nav-toggle" aria attributes exist
+  function sanityCheckAria() {
+    if (navToggle && !navToggle.hasAttribute('aria-expanded')) {
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+    if (mobileMenu && !mobileMenu.hasAttribute('aria-hidden')) {
+      mobileMenu.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  // Init
+  function init() {
+    sanityCheckAria();
+    applyReducedMotion();
+    initMobileMenu();
+    initScrollReveal();
+
+    // Improve keyboard access: focus visible outline handled by CSS :focus-visible
+    // Remove hover-only transforms for touch devices by detecting touch capability
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      document.documentElement.classList.add('has-touch');
+    }
+  }
+
+  // Wait for DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
