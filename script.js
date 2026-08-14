@@ -1,558 +1,376 @@
 /* =========================================================
-   WEBROO — MAIN JAVASCRIPT
+   WEBROO
+   MAIN JAVASCRIPT
    ========================================================= */
 
 "use strict";
 
 
-/* =========================================================
-   1. DOM ELEMENTS
-   ========================================================= */
+/* ================= MOBILE MENU ================= */
 
-const navToggle = document.getElementById("nav-toggle");
-const mobileMenu = document.getElementById("mobile-menu");
+const navToggle =
+  document.getElementById("nav-toggle");
 
-const mobileLinks = document.querySelectorAll(".mobile-link");
-
-const allAnchorLinks = document.querySelectorAll(
-  'a[href^="#"]'
-);
+const mobileMenu =
+  document.getElementById("mobile-menu");
 
 
-/* =========================================================
-   2. MOBILE NAVIGATION
-   ========================================================= */
+if (navToggle && mobileMenu) {
 
-function openMobileMenu() {
-  if (!navToggle || !mobileMenu) {
-    return;
-  }
-
-  navToggle.setAttribute(
-    "aria-expanded",
-    "true"
-  );
-
-  navToggle.setAttribute(
-    "aria-label",
-    "Close navigation menu"
-  );
-
-  mobileMenu.classList.add("active");
-
-  mobileMenu.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
-  document.body.classList.add(
-    "menu-open"
-  );
-}
-
-
-function closeMobileMenu() {
-  if (!navToggle || !mobileMenu) {
-    return;
-  }
-
-  navToggle.setAttribute(
-    "aria-expanded",
-    "false"
-  );
-
-  navToggle.setAttribute(
-    "aria-label",
-    "Open navigation menu"
-  );
-
-  mobileMenu.classList.remove("active");
-
-  mobileMenu.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-  document.body.classList.remove(
-    "menu-open"
-  );
-}
-
-
-function toggleMobileMenu() {
-  if (!mobileMenu) {
-    return;
-  }
-
-  const isOpen =
-    mobileMenu.classList.contains("active");
-
-  if (isOpen) {
-    closeMobileMenu();
-  } else {
-    openMobileMenu();
-  }
-}
-
-
-/* =========================================================
-   3. MOBILE MENU BUTTON
-   ========================================================= */
-
-if (navToggle) {
   navToggle.addEventListener(
     "click",
-    toggleMobileMenu
-  );
-}
+    function () {
 
+      const isOpen =
+        mobileMenu.classList.contains("active");
 
-/* =========================================================
-   4. CLOSE MENU AFTER CLICKING A LINK
-   ========================================================= */
+      if (isOpen) {
 
-mobileLinks.forEach((link) => {
+        mobileMenu.classList.remove("active");
 
-  link.addEventListener(
-    "click",
-    () => {
-      closeMobileMenu();
+        navToggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        navToggle.setAttribute(
+          "aria-label",
+          "Open menu"
+        );
+
+      } else {
+
+        mobileMenu.classList.add("active");
+
+        navToggle.setAttribute(
+          "aria-expanded",
+          "true"
+        );
+
+        navToggle.setAttribute(
+          "aria-label",
+          "Close menu"
+        );
+
+      }
+
     }
   );
 
-});
+}
 
 
-/* =========================================================
-   5. ESCAPE KEY
-   ========================================================= */
+/* ================= MOBILE LINKS ================= */
+
+const mobileLinks =
+  document.querySelectorAll(
+    ".mobile-nav a"
+  );
+
+
+mobileLinks.forEach(
+  function (link) {
+
+    link.addEventListener(
+      "click",
+      function () {
+
+        if (mobileMenu) {
+          mobileMenu.classList.remove(
+            "active"
+          );
+        }
+
+        if (navToggle) {
+
+          navToggle.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+          navToggle.setAttribute(
+            "aria-label",
+            "Open menu"
+          );
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+/* ================= ESCAPE KEY ================= */
 
 document.addEventListener(
   "keydown",
-  (event) => {
+  function (event) {
 
     if (event.key === "Escape") {
-      closeMobileMenu();
+
+      if (mobileMenu) {
+        mobileMenu.classList.remove(
+          "active"
+        );
+      }
+
+      if (navToggle) {
+
+        navToggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        navToggle.setAttribute(
+          "aria-label",
+          "Open menu"
+        );
+
+      }
+
     }
 
   }
 );
 
 
-/* =========================================================
-   6. CLICK OUTSIDE MOBILE MENU
-   ========================================================= */
-
-document.addEventListener(
-  "click",
-  (event) => {
-
-    if (!mobileMenu || !navToggle) {
-      return;
-    }
-
-    const clickedInsideMenu =
-      mobileMenu.contains(event.target);
-
-    const clickedToggle =
-      navToggle.contains(event.target);
-
-    if (
-      mobileMenu.classList.contains("active") &&
-      !clickedInsideMenu &&
-      !clickedToggle
-    ) {
-      closeMobileMenu();
-    }
-
-  }
-);
-
-
-/* =========================================================
-   7. CLOSE MOBILE MENU WHEN WINDOW RESIZES
-   ========================================================= */
+/* ================= CLOSE MENU ON RESIZE ================= */
 
 window.addEventListener(
   "resize",
-  () => {
+  function () {
 
     if (
-      window.innerWidth > 1000 &&
-      mobileMenu &&
-      mobileMenu.classList.contains("active")
+      window.innerWidth > 1000
     ) {
-      closeMobileMenu();
+
+      if (mobileMenu) {
+        mobileMenu.classList.remove(
+          "active"
+        );
+      }
+
+      if (navToggle) {
+
+        navToggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        navToggle.setAttribute(
+          "aria-label",
+          "Open menu"
+        );
+
+      }
+
     }
 
   }
 );
 
 
-/* =========================================================
-   8. SMOOTH INTERNAL NAVIGATION
-   ========================================================= */
+/* ================= PROFILE BUTTONS ================= */
 
-allAnchorLinks.forEach((link) => {
-
-  link.addEventListener(
-    "click",
-    (event) => {
-
-      const href =
-        link.getAttribute("href");
-
-      if (
-        !href ||
-        href === "#" ||
-        href === "#!"
-      ) {
-        return;
-      }
-
-      const target =
-        document.querySelector(href);
-
-      if (!target) {
-        return;
-      }
-
-      event.preventDefault();
-
-      closeMobileMenu();
-
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-    }
-  );
-
-});
-
-
-/* =========================================================
-   9. DEMO PROFILE LINKS
-   ========================================================= */
-
-const demoProfileLinks =
+const profileButtons =
   document.querySelectorAll(
-    '.expert-card a[href="#"]'
+    ".profile-button"
   );
 
 
-demoProfileLinks.forEach((link) => {
+profileButtons.forEach(
+  function (button) {
 
-  link.addEventListener(
-    "click",
-    (event) => {
-
-      event.preventDefault();
-
-      const expertCard =
-        link.closest(".expert-card");
-
-      if (!expertCard) {
-        return;
-      }
-
-      const expertName =
-        expertCard.querySelector(
-          ".expert-name"
-        );
-
-      if (expertName) {
+    button.addEventListener(
+      "click",
+      function () {
 
         const name =
-          expertName.textContent.trim();
+          button.getAttribute(
+            "data-name"
+          );
 
         showMessage(
-          `${name}'s profile will be available soon.`
+          name +
+          "'s full profile will be available soon."
         );
 
       }
+    );
+
+  }
+);
+
+
+/* ================= PROJECT BUTTON ================= */
+
+const projectButton =
+  document.getElementById(
+    "project-button"
+  );
+
+
+if (projectButton) {
+
+  projectButton.addEventListener(
+    "click",
+    function () {
+
+      showMessage(
+        "Project posting will be available in the next WEBROO version."
+      );
 
     }
   );
 
-});
+}
 
 
-/* =========================================================
-   10. TEMPORARY MESSAGE
-   ========================================================= */
+/* ================= MESSAGE ================= */
 
 function showMessage(message) {
 
-  const existingMessage =
+  const oldMessage =
     document.querySelector(
-      ".webroo-message"
+      ".site-message"
     );
 
-  if (existingMessage) {
-    existingMessage.remove();
+  if (oldMessage) {
+    oldMessage.remove();
   }
 
 
-  const messageBox =
-    document.createElement("div");
+  const messageElement =
+    document.createElement(
+      "div"
+    );
 
-  messageBox.className =
-    "webroo-message";
+  messageElement.className =
+    "site-message";
 
-  messageBox.textContent =
+  messageElement.textContent =
     message;
 
 
-  messageBox.style.position =
-    "fixed";
-
-  messageBox.style.left =
-    "50%";
-
-  messageBox.style.bottom =
-    "25px";
-
-  messageBox.style.transform =
-    "translateX(-50%)";
-
-  messageBox.style.zIndex =
-    "9999";
-
-  messageBox.style.padding =
-    "13px 20px";
-
-  messageBox.style.borderRadius =
-    "10px";
-
-  messageBox.style.background =
-    "#121925";
-
-  messageBox.style.color =
-    "#ffffff";
-
-  messageBox.style.border =
-    "1px solid rgba(255,255,255,0.12)";
-
-  messageBox.style.boxShadow =
-    "0 15px 40px rgba(0,0,0,0.35)";
-
-  messageBox.style.fontSize =
-    "14px";
-
-  messageBox.style.fontWeight =
-    "600";
-
-
   document.body.appendChild(
-    messageBox
+    messageElement
   );
 
 
-  setTimeout(() => {
+  requestAnimationFrame(
+    function () {
 
-    messageBox.style.opacity =
-      "0";
-
-    messageBox.style.transition =
-      "opacity 0.3s ease";
-
-  }, 2200);
-
-
-  setTimeout(() => {
-
-    messageBox.remove();
-
-  }, 2600);
-
-}
-
-
-/* =========================================================
-   11. SCROLL REVEAL
-   ========================================================= */
-
-const revealElements =
-  document.querySelectorAll(
-    ".feature-card, .category-card, .expert-card, .timeline-step, .trust-card"
-  );
-
-
-if (
-  "IntersectionObserver" in window
-) {
-
-  const revealObserver =
-    new IntersectionObserver(
-      (entries, observer) => {
-
-        entries.forEach((entry) => {
-
-          if (!entry.isIntersecting) {
-            return;
-          }
-
-          entry.target.classList.add(
-            "is-visible"
-          );
-
-          observer.unobserve(
-            entry.target
-          );
-
-        });
-
-      },
-      {
-        threshold: 0.12
-      }
-    );
-
-
-  revealElements.forEach(
-    (element) => {
-
-      element.classList.add(
-        "reveal"
-      );
-
-      revealObserver.observe(
-        element
+      messageElement.classList.add(
+        "show"
       );
 
     }
   );
 
-}
 
+  setTimeout(
+    function () {
 
-/* =========================================================
-   12. ACTIVE NAVIGATION
-   ========================================================= */
-
-const sections =
-  document.querySelectorAll(
-    "main section[id]"
-  );
-
-const desktopNavLinks =
-  document.querySelectorAll(
-    ".nav-links a"
-  );
-
-
-if (
-  "IntersectionObserver" in window
-) {
-
-  const sectionObserver =
-    new IntersectionObserver(
-      (entries) => {
-
-        entries.forEach(
-          (entry) => {
-
-            if (!entry.isIntersecting) {
-              return;
-            }
-
-            const sectionId =
-              entry.target.id;
-
-            desktopNavLinks.forEach(
-              (link) => {
-
-                link.classList.remove(
-                  "active"
-                );
-
-                if (
-                  link.getAttribute(
-                    "href"
-                  ) === `#${sectionId}`
-                ) {
-
-                  link.classList.add(
-                    "active"
-                  );
-
-                }
-
-              }
-            );
-
-          }
-        );
-
-      },
-      {
-        rootMargin:
-          "-25% 0px -65% 0px"
-      }
-    );
-
-
-  sections.forEach(
-    (section) => {
-
-      sectionObserver.observe(
-        section
+      messageElement.classList.remove(
+        "show"
       );
 
-    }
+      setTimeout(
+        function () {
+
+          messageElement.remove();
+
+        },
+        300
+      );
+
+    },
+    2500
   );
 
 }
 
 
-/* =========================================================
-   13. UPDATE CURRENT YEAR
-   ========================================================= */
+/* ================= CURRENT YEAR ================= */
 
-const footerYear =
-  document.querySelector(
-    ".footer-note p"
+const yearElement =
+  document.getElementById(
+    "year"
   );
 
 
-if (footerYear) {
+if (yearElement) {
 
-  const currentYear =
+  yearElement.textContent =
     new Date().getFullYear();
 
-  footerYear.textContent =
-    `© ${currentYear} WEBROO. All rights reserved.`;
-
 }
 
 
-/* =========================================================
-   14. INITIALIZE
-   ========================================================= */
+/* ================= CLOSE MENU WHEN CLICKING OUTSIDE ================= */
 
-function initializeWEBROO() {
+document.addEventListener(
+  "click",
+  function (event) {
 
-  if (mobileMenu) {
+    if (
+      !mobileMenu ||
+      !navToggle
+    ) {
+      return;
+    }
 
-    mobileMenu.setAttribute(
-      "aria-hidden",
-      "true"
+
+    const clickedMenu =
+      mobileMenu.contains(
+        event.target
+      );
+
+    const clickedButton =
+      navToggle.contains(
+        event.target
+      );
+
+
+    if (
+      mobileMenu.classList.contains(
+        "active"
+      ) &&
+      !clickedMenu &&
+      !clickedButton
+    ) {
+
+      mobileMenu.classList.remove(
+        "active"
+      );
+
+      navToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      navToggle.setAttribute(
+        "aria-label",
+        "Open menu"
+      );
+
+    }
+
+  }
+);
+
+
+/* ================= PAGE LOADED ================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    document.body.classList.add(
+      "page-loaded"
     );
 
   }
-
-  if (navToggle) {
-
-    navToggle.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-
-  }
-
-}
-
-
-initializeWEBROO();
+);
