@@ -1,270 +1,39 @@
-"use strict";
-
-
-/* MOBILE MENU */
-
-const menuButton = document.getElementById("menuButton");
-const mobileMenu = document.getElementById("mobileMenu");
-
-if (menuButton && mobileMenu) {
-
-    menuButton.addEventListener("click", function () {
-
-        const isOpen = mobileMenu.classList.contains("active");
-
-        if (isOpen) {
-
-            mobileMenu.classList.remove("active");
-            document.body.classList.remove("menu-open");
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            menuButton.setAttribute(
-                "aria-label",
-                "Open menu"
-            );
-
-        } else {
-
-            mobileMenu.classList.add("active");
-            document.body.classList.add("menu-open");
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                "true"
-            );
-
-            menuButton.setAttribute(
-                "aria-label",
-                "Close menu"
-            );
-
-        }
-
-    });
-
+/* ==========================================
+   WEBROO PLATFORM DESIGN SYSTEM & STYLES
+   ========================================== */
+/* Design Tokens & CSS Variables */
+:root {
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bg-dark: #0b0f19;
+  --bg-dark-alt: #111827;
+  --bg-card: rgba(21, 28, 46, 0.7);
+  --bg-card-hover: rgba(30, 41, 59, 0.85);
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-glow: rgba(99, 102, 241, 0.25);
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --secondary: #10b981;
+  --secondary-glow: rgba(16, 185, 129, 0.2);
+  --warning: #f59e0b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(99, 102, 241, 0.4);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-
-/* CLOSE MOBILE MENU AFTER CLICKING LINK */
-
-const mobileLinks =
-    document.querySelectorAll(".mobile-menu a");
-
-mobileLinks.forEach(function (link) {
-
-    link.addEventListener("click", function () {
-
-        if (mobileMenu) {
-            mobileMenu.classList.remove("active");
-        }
-
-        document.body.classList.remove("menu-open");
-
-        if (menuButton) {
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            menuButton.setAttribute(
-                "aria-label",
-                "Open menu"
-            );
-
-        }
-
-    });
-
-});
-
-
-/* ESCAPE KEY */
-
-document.addEventListener("keydown", function (event) {
-
-    if (event.key === "Escape") {
-
-        if (mobileMenu) {
-            mobileMenu.classList.remove("active");
-        }
-
-        document.body.classList.remove("menu-open");
-
-        if (menuButton) {
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-    }
-
-});
-
-
-/* CLOSE MENU WHEN CLICKING OUTSIDE */
-
-document.addEventListener("click", function (event) {
-
-    if (!mobileMenu || !menuButton) {
-        return;
-    }
-
-    const clickedMenu =
-        mobileMenu.contains(event.target);
-
-    const clickedButton =
-        menuButton.contains(event.target);
-
-    if (
-        mobileMenu.classList.contains("active") &&
-        !clickedMenu &&
-        !clickedButton
-    ) {
-
-        mobileMenu.classList.remove("active");
-
-        document.body.classList.remove(
-            "menu-open"
-        );
-
-        menuButton.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-    }
-
-});
-
-
-/* PROFILE BUTTONS */
-
-const profileButtons =
-    document.querySelectorAll(".profile-button");
-
-profileButtons.forEach(function (button) {
-
-    button.addEventListener("click", function () {
-
-        const name =
-            button.getAttribute("data-name");
-
-        showMessage(
-            name +
-            "'s full profile will be available soon."
-        );
-
-    });
-
-});
-
-
-/* START PROJECT BUTTON */
-
-const projectButton =
-    document.getElementById("projectButton");
-
-if (projectButton) {
-
-    projectButton.addEventListener(
-        "click",
-        function () {
-
-            showMessage(
-                "Project posting will be available soon."
-            );
-
-        }
-    );
-
+/* Reset & Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-
-
-/* MESSAGE */
-
-function showMessage(text) {
-
-    const oldMessage =
-        document.querySelector(".message");
-
-    if (oldMessage) {
-        oldMessage.remove();
-    }
-
-    const message =
-        document.createElement("div");
-
-    message.className = "message";
-
-    message.textContent = text;
-
-    document.body.appendChild(message);
-
-    requestAnimationFrame(function () {
-
-        message.classList.add("show");
-
-    });
-
-    setTimeout(function () {
-
-        message.classList.remove("show");
-
-        setTimeout(function () {
-
-            message.remove();
-
-        }, 300);
-
-    }, 2500);
-
-}
-
-
-/* CURRENT YEAR */
-
-const year =
-    document.getElementById("year");
-
-if (year) {
-
-    year.textContent =
-        new Date().getFullYear();
-
-}
-
-
-/* CLOSE MENU ON DESKTOP */
-
-window.addEventListener("resize", function () {
-
-    if (window.innerWidth > 1000) {
-
-        if (mobileMenu) {
-            mobileMenu.classList.remove("active");
-        }
-
-        document.body.classList.remove(
-            "menu-open"
-        );
-
-        if (menuButton) {
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-    }
-
-});
+html {
+  scroll-behavior: smooth;
