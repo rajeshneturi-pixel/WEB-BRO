@@ -3,964 +3,444 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta
-    name="description"
-    content="WEBROO connects businesses with professional web designers and developers."
-  >
-
-  <title>WEBROO — Find Web Designers & Developers</title>
-
-  <link rel="stylesheet" href="style.css">
+  <title>WEBROO — Digital Talent & Project Platform</title>
+  <meta name="description" content="WEBROO connects businesses and clients with web developers, web designers, UI/UX designers, and digital professionals.">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
 
-  <!-- ================= HEADER ================= -->
+  <!-- Lightweight Network Canvas Background -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-  <header class="site-header">
+  <!-- Toast Notification System -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
-    <div class="container header-inner">
+  <!-- Header Section -->
+  <header class="site-header" id="header">
+    <div class="container header-container">
+      <a href="#hero" class="brand-logo">WEB<span class="highlight">ROO</span></a>
 
-      <a href="#home" class="brand" aria-label="WEBROO Home">
-        <span class="logo-mark">&lt;/&gt;</span>
-        <span>WEBROO</span>
-      </a>
-
-      <nav class="main-nav">
-        <a href="#home">Home</a>
-        <a href="#experts">Find Experts</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#developers">For Developers</a>
-        <a href="#about">About</a>
+      <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#categories" class="nav-link">Find Experts</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#for-creators" class="nav-link">For Developers</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
       </nav>
 
       <div class="header-actions">
-
-        <a href="#post-project" class="btn btn-primary">
-          Post a Project
-        </a>
-
-        <a href="#developers" class="btn btn-secondary">
-          Join as Expert
-        </a>
-
-        <button
-          id="nav-toggle"
-          class="nav-toggle"
-          type="button"
-          aria-label="Open menu"
-          aria-expanded="false"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
+        <button type="button" class="btn btn-outline" id="btn-header-login">Log In</button>
+        <button type="button" class="btn btn-primary" id="btn-header-join">Join WEBROO</button>
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
         </button>
-
       </div>
-
     </div>
-
-    <!-- Mobile Navigation -->
-
-    <nav id="mobile-menu" class="mobile-nav">
-
-      <a href="#home">Home</a>
-      <a href="#experts">Find Experts</a>
-      <a href="#how-it-works">How It Works</a>
-      <a href="#developers">For Developers</a>
-      <a href="#about">About</a>
-
-      <div class="mobile-buttons">
-        <a href="#post-project" class="btn btn-primary">
-          Post a Project
-        </a>
-
-        <a href="#developers" class="btn btn-secondary">
-          Join as Expert
-        </a>
-      </div>
-
-    </nav>
-
   </header>
 
-
+  <!-- Main Content Area -->
   <main>
 
-    <!-- ================= HERO ================= -->
-
-    <section id="home" class="hero">
-
-      <div class="hero-background"></div>
-
-      <div class="container hero-grid">
-
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
         <div class="hero-content">
-
-          <div class="badge">
-            Connecting businesses with digital talent
-          </div>
-
-          <h1>
-            Build Your Website
-            <span>With the Right Expert.</span>
-          </h1>
-
-          <p>
-            WEBROO connects businesses and clients with skilled
-            web designers and developers who can turn ideas into
-            professional digital experiences.
-          </p>
-
+          <span class="badge">Connecting Clients & Digital Experts</span>
+          <h1 class="hero-title">Build Your Website With the Right Expert.</h1>
+          <p class="hero-description">Connect with skilled web developers, designers and digital professionals who can turn your ideas into professional digital experiences.</p>
           <div class="hero-buttons">
-
-            <a href="#experts" class="btn btn-primary btn-large">
-              Find a Web Expert
-            </a>
-
-            <a href="#post-project" class="btn btn-outline btn-large">
-              Post Your Project
-            </a>
-
+            <a href="#categories" class="btn btn-primary btn-lg" id="btn-hero-find">Find an Expert</a>
+            <button type="button" class="btn btn-glass btn-lg" id="btn-hero-post">Post a Project</button>
           </div>
-
-          <div class="hero-stats">
-
-            <div>
-              <strong>500+</strong>
-              <span>Experts</span>
-            </div>
-
-            <div>
-              <strong>1,000+</strong>
-              <span>Projects</span>
-            </div>
-
-            <div>
-              <strong>4.8/5</strong>
-              <span>Average Rating</span>
-            </div>
-
-          </div>
-
         </div>
-
-
-        <!-- Hero Visual -->
-
-        <div class="hero-visual">
-
-          <div class="floating-card card-one">
-
-            <div class="avatar blue">
-              AK
-            </div>
-
-            <div>
-              <strong>Arjun Kumar</strong>
-              <span>Frontend Developer</span>
-
-              <small>
-                ⭐ 4.9 &nbsp; • &nbsp; 32 Projects
-              </small>
-            </div>
-
-          </div>
-
-
-          <div class="floating-card card-two">
-
-            <div class="avatar purple">
-              PN
-            </div>
-
-            <div>
-              <strong>Priya Nair</strong>
-              <span>UI/UX Designer</span>
-
-              <small>
-                ⭐ 4.8 &nbsp; • &nbsp; 24 Projects
-              </small>
-            </div>
-
-          </div>
-
-
-          <div class="floating-card card-three">
-
-            <div class="avatar green">
-              VS
-            </div>
-
-            <div>
-              <strong>Vikram Singh</strong>
-              <span>Web Designer</span>
-
-              <small>
-                ⭐ 4.9 &nbsp; • &nbsp; 41 Projects
-              </small>
-            </div>
-
-          </div>
-
-        </div>
-
       </div>
-
     </section>
 
-
-    <!-- ================= PROBLEM ================= -->
-
-    <section id="about" class="section">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="section-label">
-            THE PROBLEM
-          </span>
-
-          <h2>
-            Finding the Right Developer
-            Shouldn't Be Difficult.
-          </h2>
-
-          <p>
-            Businesses often struggle to find reliable
-            professionals for their website projects.
-          </p>
-
-        </div>
-
-
-        <div class="cards three">
-
-          <article class="info-card">
-
-            <div class="icon">
-              🔎
-            </div>
-
-            <h3>
-              Hard to Find Reliable Professionals
-            </h3>
-
-            <p>
-              Finding skilled and trustworthy web professionals
-              can take a lot of time.
-            </p>
-
-          </article>
-
-
-          <article class="info-card">
-
-            <div class="icon">
-              💰
-            </div>
-
-            <h3>
-              Unclear Pricing
-            </h3>
-
-            <p>
-              Businesses often don't know how much a website
-              project should realistically cost.
-            </p>
-
-          </article>
-
-
-          <article class="info-card">
-
-            <div class="icon">
-              ⚖️
-            </div>
-
-            <h3>
-              Difficult Comparison
-            </h3>
-
-            <p>
-              Comparing portfolios, skills, reviews and
-              experience can become confusing.
-            </p>
-
-          </article>
-
-        </div>
-
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+      <div class="container text-center">
+        <span class="section-subtitle">About Us</span>
+        <h2>About WEBROO</h2>
+        <p class="max-width-md">WEBROO is a platform designed to bridge the gap between businesses needing high-quality web services and digital experts seeking impactful project opportunities.</p>
       </div>
-
     </section>
 
-
-    <!-- ================= SOLUTION ================= -->
-
-    <section class="section dark-section">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="section-label">
-            THE WEBROO SOLUTION
-          </span>
-
-          <h2>
-            Discover. Compare. Connect.
-          </h2>
-
-          <p>
-            A simple platform designed to connect businesses
-            with the right digital professionals.
-          </p>
-
+    <!-- How It Works Section -->
+    <section class="section how-it-works-section" id="how-it-works">
+      <div class="container text-center">
+        <span class="section-subtitle">Process</span>
+        <h2>How WEBROO Works</h2>
+        <div class="steps-grid">
+          <div class="step-card glass-card">
+            <span class="step-num">01</span>
+            <h3>Post Your Project</h3>
+            <p>Client describes the website or digital project requirements, timeline, and budget.</p>
+          </div>
+          <div class="step-card glass-card">
+            <span class="step-num">02</span>
+            <h3>Find the Right Expert</h3>
+            <p>Browse developers, designers, and verified portfolios to select the perfect match.</p>
+          </div>
+          <div class="step-card glass-card">
+            <span class="step-num">03</span>
+            <h3>Start Working</h3>
+            <p>Connect directly and begin building your custom web application or website.</p>
+          </div>
         </div>
-
-
-        <div class="cards three">
-
-          <article class="solution-card">
-
-            <span class="number">
-              01
-            </span>
-
-            <h3>
-              Discover
-            </h3>
-
-            <p>
-              Search professionals based on skills,
-              experience and portfolio.
-            </p>
-
-          </article>
-
-
-          <article class="solution-card">
-
-            <span class="number">
-              02
-            </span>
-
-            <h3>
-              Compare
-            </h3>
-
-            <p>
-              Compare profiles, work samples,
-              ratings and starting prices.
-            </p>
-
-          </article>
-
-
-          <article class="solution-card">
-
-            <span class="number">
-              03
-            </span>
-
-            <h3>
-              Connect
-            </h3>
-
-            <p>
-              Contact the professional and discuss
-              your project directly.
-            </p>
-
-          </article>
-
-        </div>
-
       </div>
-
     </section>
 
-
-    <!-- ================= HOW IT WORKS ================= -->
-
-    <section id="how-it-works" class="section">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="section-label">
-            HOW IT WORKS
-          </span>
-
-          <h2>
-            From Idea to Website.
-          </h2>
-
-          <p>
-            A simple process for businesses looking
-            for digital talent.
-          </p>
-
+    <!-- Expert Categories Section -->
+    <section class="section categories-section" id="categories">
+      <div class="container text-center">
+        <span class="section-subtitle">Explore Specialists</span>
+        <h2>Expert Categories</h2>
+        <div class="categories-grid">
+          <div class="category-card glass-card">
+            <div class="cat-icon">💻</div>
+            <h3>Web Developers</h3>
+            <p>Frontend coders and core web developers building clean, performant websites.</p>
+            <button type="button" class="btn btn-sm btn-outline btn-cat-view" data-cat="developer">View Experts</button>
+          </div>
+          <div class="category-card glass-card">
+            <div class="cat-icon">🎨</div>
+            <h3>Web Designers</h3>
+            <p>Visual web designers crafting beautiful, modern layout experiences.</p>
+            <button type="button" class="btn btn-sm btn-outline btn-cat-view" data-cat="designer">View Experts</button>
+          </div>
+          <div class="category-card glass-card">
+            <div class="cat-icon">✨</div>
+            <h3>UI/UX Designers</h3>
+            <p>User interface and experience specialists focused on usability and conversion.</p>
+            <button type="button" class="btn btn-sm btn-outline btn-cat-view" data-cat="uiux">View Experts</button>
+          </div>
+          <div class="category-card glass-card">
+            <div class="cat-icon">🚀</div>
+            <h3>Full-Stack Developers</h3>
+            <p>End-to-end engineers building comprehensive web applications.</p>
+            <button type="button" class="btn btn-sm btn-outline btn-cat-view" data-cat="fullstack">View Experts</button>
+          </div>
         </div>
+      </div>
+    </section>
 
-
-        <div class="steps">
-
-          <div class="step">
-
-            <div class="step-number">
-              01
-            </div>
-
-            <h3>
-              Tell Us What You Need
-            </h3>
-
-            <p>
-              Describe your website, requirements,
-              budget and deadline.
-            </p>
-
+    <!-- Featured Experts Section -->
+    <section class="section featured-experts-section" id="featured-experts">
+      <div class="container text-center">
+        <span class="section-subtitle">Featured Talent</span>
+        <h2>Featured Experts</h2>
+        <div class="experts-grid">
+          
+          <div class="expert-card glass-card">
+            <div class="avatar-circle dev">AM</div>
+            <h3 class="expert-name">Alex Morgan</h3>
+            <p class="expert-skill">Web Developer</p>
+            <p class="expert-rating">★ 4.9 Rating</p>
+            <p class="expert-price">Starting at $45/hr</p>
+            <button type="button" class="btn btn-sm btn-primary btn-view-profile" data-profile="developer">View Profile</button>
           </div>
 
-
-          <div class="step">
-
-            <div class="step-number">
-              02
-            </div>
-
-            <h3>
-              Discover Experts
-            </h3>
-
-            <p>
-              Explore professionals according
-              to their skills and experience.
-            </p>
-
+          <div class="expert-card glass-card">
+            <div class="avatar-circle stud">SC</div>
+            <h3 class="expert-name">Sophia Chen</h3>
+            <p class="expert-skill">UI/UX Designer</p>
+            <p class="expert-rating">★ 5.0 Rating</p>
+            <p class="expert-price">Starting at $50/hr</p>
+            <button type="button" class="btn btn-sm btn-primary btn-view-profile" data-profile="student">View Profile</button>
           </div>
 
-
-          <div class="step">
-
-            <div class="step-number">
-              03
-            </div>
-
-            <h3>
-              Compare & Connect
-            </h3>
-
-            <p>
-              Compare portfolios, reviews and
-              pricing before contacting them.
-            </p>
-
-          </div>
-
-
-          <div class="step">
-
-            <div class="step-number">
-              04
-            </div>
-
-            <h3>
-              Build & Launch
-            </h3>
-
-            <p>
-              Work together and bring your
-              website idea to life.
-            </p>
-
+          <div class="expert-card glass-card">
+            <div class="avatar-circle cust">JD</div>
+            <h3 class="expert-name">Jordan Dax</h3>
+            <p class="expert-skill">Full-Stack Developer</p>
+            <p class="expert-rating">★ 4.8 Rating</p>
+            <p class="expert-price">Starting at $60/hr</p>
+            <button type="button" class="btn btn-sm btn-primary btn-view-profile" data-profile="developer">View Profile</button>
           </div>
 
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- ================= EXPERTS ================= -->
-
-    <section id="experts" class="section dark-section">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="section-label">
-            WEB PROFESSIONALS
-          </span>
-
-          <h2>
-            Find the Right Skill
-            for Your Project.
-          </h2>
-
-          <p>
-            Explore different types of professionals
-            you can find on WEBROO.
-          </p>
-
+    <!-- For Developers Section -->
+    <section class="section for-creators-section" id="for-creators">
+      <div class="container text-center">
+        <div class="glass-card cta-box">
+          <span class="section-subtitle">For Talent</span>
+          <h2>For Developers & Designers</h2>
+          <p class="max-width-md">Showcase your portfolio, connect directly with clients, and grow your digital career with WEBROO.</p>
+          <button type="button" class="btn btn-primary btn-lg mt-3" id="btn-creators-join">Create Your Talent Profile</button>
         </div>
-
-
-        <div class="cards three">
-
-          <article class="expert-card">
-
-            <div class="expert-avatar blue">
-              WD
-            </div>
-
-            <div class="expert-content">
-
-              <h3>
-                Web Designer
-              </h3>
-
-              <p>
-                Creates beautiful layouts,
-                visual designs and polished websites.
-              </p>
-
-              <a href="#developers">
-                Explore Experts →
-              </a>
-
-            </div>
-
-          </article>
-
-
-          <article class="expert-card">
-
-            <div class="expert-avatar purple">
-              UX
-            </div>
-
-            <div class="expert-content">
-
-              <h3>
-                UI/UX Designer
-              </h3>
-
-              <p>
-                Creates user-friendly interfaces,
-                wireframes and digital experiences.
-              </p>
-
-              <a href="#developers">
-                Explore Experts →
-              </a>
-
-            </div>
-
-          </article>
-
-
-          <article class="expert-card">
-
-            <div class="expert-avatar green">
-              DEV
-            </div>
-
-            <div class="expert-content">
-
-              <h3>
-                Web Developer
-              </h3>
-
-              <p>
-                Builds responsive websites,
-                applications and technical solutions.
-              </p>
-
-              <a href="#developers">
-                Explore Experts →
-              </a>
-
-            </div>
-
-          </article>
-
-        </div>
-
       </div>
-
     </section>
 
-
-    <!-- ================= FEATURED EXPERTS ================= -->
-
-    <section class="section">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="section-label">
-            FEATURED EXPERTS
-          </span>
-
-          <h2>
-            Professionals Ready to Build.
-          </h2>
-
-          <p>
-            Example profiles for the WEBROO MVP.
-          </p>
-
-        </div>
-
-
-        <div class="expert-grid">
-
-
-          <article class="profile-card">
-
-            <div class="profile-avatar blue">
-              AK
-            </div>
-
-            <h3>
-              Arjun Kumar
-            </h3>
-
-            <span class="role">
-              Frontend Developer
-            </span>
-
-            <p>
-              HTML • CSS • JavaScript • React
-            </p>
-
-            <div class="profile-info">
-              <span>⭐ 4.9</span>
-              <span>32 Projects</span>
-              <span>₹15,000+</span>
-            </div>
-
-            <button
-              class="btn btn-outline profile-button"
-              type="button"
-              data-name="Arjun Kumar"
-            >
-              View Profile
-            </button>
-
-          </article>
-
-
-          <article class="profile-card">
-
-            <div class="profile-avatar purple">
-              PN
-            </div>
-
-            <h3>
-              Priya Nair
-            </h3>
-
-            <span class="role">
-              UI/UX Designer
-            </span>
-
-            <p>
-              Figma • UI Design • Prototyping
-            </p>
-
-            <div class="profile-info">
-              <span>⭐ 4.8</span>
-              <span>24 Projects</span>
-              <span>₹12,000+</span>
-            </div>
-
-            <button
-              class="btn btn-outline profile-button"
-              type="button"
-              data-name="Priya Nair"
-            >
-              View Profile
-            </button>
-
-          </article>
-
-
-          <article class="profile-card">
-
-            <div class="profile-avatar green">
-              VS
-            </div>
-
-            <h3>
-              Vikram Singh
-            </h3>
-
-            <span class="role">
-              Web Designer
-            </span>
-
-            <p>
-              Webflow • Framer • UI Design
-            </p>
-
-            <div class="profile-info">
-              <span>⭐ 4.9</span>
-              <span>41 Projects</span>
-              <span>₹10,000+</span>
-            </div>
-
-            <button
-              class="btn btn-outline profile-button"
-              type="button"
-              data-name="Vikram Singh"
-            >
-              View Profile
-            </button>
-
-          </article>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= DEVELOPERS ================= -->
-
-    <section id="developers" class="section developer-section">
-
-      <div class="container developer-grid">
-
-        <div>
-
-          <span class="section-label">
-            FOR DEVELOPERS & DESIGNERS
-          </span>
-
-          <h2>
-            Turn Your Skills
-            Into Opportunities.
-          </h2>
-
-          <p>
-            Build your professional profile,
-            showcase your portfolio and connect
-            directly with businesses looking for
-            your skills.
-          </p>
-
-          <ul class="check-list">
-
-            <li>
-              Build your professional profile
-            </li>
-
-            <li>
-              Showcase your portfolio
-            </li>
-
-            <li>
-              Receive relevant project opportunities
-            </li>
-
-            <li>
-              Connect directly with clients
-            </li>
-
-            <li>
-              Build your reputation through reviews
-            </li>
-
-          </ul>
-
-          <a href="#post-project" class="btn btn-primary">
-            Join as an Expert
-          </a>
-
-        </div>
-
-
-        <div class="developer-box">
-
-          <div class="code-window">
-
-            <div class="window-top">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-
-            <pre><code>&lt;developer&gt;
-
-  skills:
-    HTML
-    CSS
-    JavaScript
-    React
-
-  status:
-    Available
-
-&lt;/developer&gt;</code></pre>
-
+    <!-- Join WEBROO Section (Account Types) -->
+    <section class="section join-section" id="join">
+      <div class="container text-center">
+        <span class="section-subtitle">Get Started</span>
+        <h2>Join WEBROO</h2>
+        <p>Choose the account type that fits your goals:</p>
+        
+        <div class="account-options-grid mt-3">
+          
+          <div class="account-card glass-card">
+            <div class="option-icon">🏢</div>
+            <h3>Customer / Business</h3>
+            <p>I want to hire web experts and get a website built for my business.</p>
+            <button type="button" class="btn btn-outline btn-select-type" data-type="customer">Select Customer</button>
+          </div>
+
+          <div class="account-card glass-card">
+            <div class="option-icon">🎓</div>
+            <h3>Student / Employee</h3>
+            <p>I am a student or employee looking to showcase skills and find work.</p>
+            <button type="button" class="btn btn-outline btn-select-type" data-type="student">Select Student</button>
+          </div>
+
+          <div class="account-card glass-card">
+            <div class="option-icon">💻</div>
+            <h3>Developer / Designer</h3>
+            <p>I am a professional freelancer or designer offering digital services.</p>
+            <button type="button" class="btn btn-outline btn-select-type" data-type="developer">Select Developer</button>
           </div>
 
         </div>
-
       </div>
-
     </section>
 
+    <!-- Login Section Placeholder -->
+    <section class="section login-section" id="login">
+      <div class="container text-center">
+        <div class="glass-card login-box max-width-sm">
+          <h2>Login to WEBROO</h2>
+          <p class="subtext">Enter your details to access your WEBROO account UI.</p>
 
-    <!-- ================= POST PROJECT ================= -->
+          <form class="login-form mt-3" id="main-login-form" onsubmit="return false;">
+            <div class="form-group">
+              <label for="login-input" class="form-label">Email or Phone Number</label>
+              <input type="text" id="login-input" class="form-control" placeholder="Enter email or phone number">
+            </div>
 
-    <section id="post-project" class="section">
+            <div class="form-actions mt-3">
+              <button type="button" class="btn btn-primary btn-block" id="btn-login-continue">Continue</button>
+              <button type="button" class="btn btn-google btn-block" id="btn-google-login">Continue with Google</button>
+            </div>
+          </form>
 
-      <div class="container">
-
-        <div class="project-box">
-
-          <div>
-
-            <span class="section-label">
-              HAVE A PROJECT?
-            </span>
-
-            <h2>
-              Let's Build Your Idea.
-            </h2>
-
-            <p>
-              Tell us what you need and connect
-              with the right web professional.
-            </p>
-
+          <div class="otp-area-placeholder mt-3">
+            <div class="form-group">
+              <label for="otp-input" class="form-label">Enter OTP Code (Preview)</label>
+              <input type="text" id="otp-input" class="form-control text-center" placeholder="••••••" maxlength="6">
+            </div>
+            <button type="button" class="btn btn-outline btn-block mt-2" id="btn-verify-otp">Verify OTP</button>
+            <p class="notice-box mt-2" id="otp-notice">OTP verification will be connected to the secure backend in the next phase.</p>
           </div>
-
-          <button
-            id="project-button"
-            class="btn btn-primary btn-large"
-            type="button"
-          >
-            Start a Project
-          </button>
-
         </div>
-
       </div>
-
     </section>
-
 
   </main>
 
-
-  <!-- ================= FOOTER ================= -->
-
+  <!-- Footer Section -->
   <footer class="site-footer">
-
-    <div class="container footer-grid">
-
+    <div class="container footer-container">
       <div>
-
-        <a href="#home" class="brand">
-          <span class="logo-mark">&lt;/&gt;</span>
-          <span>WEBROO</span>
-        </a>
-
-        <p>
-          Connecting businesses with web designers
-          and developers.
-        </p>
-
+        <p class="footer-brand">WEB<span class="highlight">ROO</span></p>
+        <p class="subtext">Connecting businesses with digital experts & tech talent.</p>
+        <p class="copyright">&copy; 2026 WEBROO. All rights reserved.</p>
       </div>
-
-
-      <div class="footer-links">
-
-        <div>
-
-          <h4>Platform</h4>
-
-          <a href="#experts">
-            Find Experts
-          </a>
-
-          <a href="#post-project">
-            Post a Project
-          </a>
-
-          <a href="#developers">
-            Join as Expert
-          </a>
-
-        </div>
-
-
-        <div>
-
-          <h4>Company</h4>
-
-          <a href="#about">
-            About
-          </a>
-
-          <a href="#how-it-works">
-            How It Works
-          </a>
-
-        </div>
-
-
-        <div>
-
-          <h4>Support</h4>
-
-          <a href="#about">
-            Help Center
-          </a>
-
-          <a href="#about">
-            Contact
-          </a>
-
-        </div>
-
-      </div>
-
+      <nav class="footer-nav" aria-label="Footer Navigation">
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#categories">Find Experts</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#for-creators">For Developers</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
     </div>
-
-
-    <div class="footer-bottom">
-
-      <div class="container">
-
-        <p>
-          © <span id="year"></span> WEBROO. All rights reserved.
-        </p>
-
-      </div>
-
-    </div>
-
   </footer>
 
+  <!-- ================================================== -->
+  <!-- MODAL: JOIN WEBROO (ACCOUNT SELECTION)            -->
+  <!-- ================================================== -->
+  <div class="modal-backdrop" id="join-modal" aria-hidden="true">
+    <div class="modal-dialog glass-card">
+      <div class="modal-header">
+        <h2>Join WEBROO</h2>
+        <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="subtext">Choose your account type to proceed:</p>
+        <div class="modal-options-grid mt-3">
+          <div class="modal-option-card">
+            <h3>Customer / Business</h3>
+            <p>I want to hire web experts and get a website built for my business.</p>
+            <button type="button" class="btn btn-outline btn-select-type" data-type="customer">Select Customer</button>
+          </div>
+          <div class="modal-option-card">
+            <h3>Student / Employee</h3>
+            <p>I am a student or employee looking to showcase skills and find work.</p>
+            <button type="button" class="btn btn-outline btn-select-type" data-type="student">Select Student</button>
+          </div>
+          <div class="modal-option-card">
+            <h3>Developer / Designer</h3>
+            <p>I am a professional freelancer or designer offering digital services.</p>
+            <button type="button" class="btn btn-outline btn-select-type" data-type="developer">Select Developer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- ================= JAVASCRIPT ================= -->
+  <!-- ================================================== -->
+  <!-- MODAL: PROFILE SYSTEM INTERFACE                   -->
+  <!-- ================================================== -->
+  <div class="modal-backdrop" id="profile-modal" aria-hidden="true">
+    <div class="modal-dialog glass-card profile-dialog">
+      <div class="modal-header">
+        <div>
+          <h2>Profile Management</h2>
+          <span class="role-badge" id="profile-role-badge">Customer</span>
+        </div>
+        <div class="role-tabs">
+          <button type="button" class="role-tab active" data-role="customer">Customer</button>
+          <button type="button" class="role-tab" data-role="student">Student</button>
+          <button type="button" class="role-tab" data-role="developer">Developer</button>
+        </div>
+        <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
 
-  <script src="script.js"></script>
+      <div class="modal-body">
+        <!-- 1. CUSTOMER PROFILE -->
+        <div class="profile-container active" id="prof-customer">
+          <div class="profile-header">
+            <div class="avatar-circle cust">NV</div>
+            <div class="profile-meta">
+              <h3 id="c-disp-name">Nexus Ventures</h3>
+              <p class="subtext" id="c-disp-company">SaaS Startup Client • San Francisco, CA</p>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm btn-toggle-edit" data-target="c-edit">Edit Profile</button>
+          </div>
 
+          <div class="profile-view-box" id="c-view">
+            <div class="profile-grid">
+              <div><strong>Email:</strong> <span id="c-disp-email">contact@nexus.io</span></div>
+              <div><strong>Phone:</strong> <span id="c-disp-phone">+1 (415) 890-1234</span></div>
+              <div><strong>Business Type:</strong> <span id="c-disp-biz">Digital Software</span></div>
+              <div><strong>Budget Range:</strong> <span id="c-disp-budget">$2,500 – $5,000</span></div>
+            </div>
+            <div class="mt-3">
+              <strong>Website / Project Requirement:</strong>
+              <p id="c-disp-service">Custom Web App and Landing Page Redesign.</p>
+            </div>
+          </div>
+
+          <form id="c-edit" class="profile-edit-form hidden" onsubmit="return false;">
+            <div class="profile-grid">
+              <div class="form-group"><label class="form-label" for="c-in-name">Full Name / Business Name</label><input type="text" id="c-in-name" class="form-control" value="Nexus Ventures"></div>
+              <div class="form-group"><label class="form-label" for="c-in-email">Email</label><input type="email" id="c-in-email" class="form-control" value="contact@nexus.io"></div>
+              <div class="form-group"><label class="form-label" for="c-in-phone">Phone</label><input type="tel" id="c-in-phone" class="form-control" value="+1 (415) 890-1234"></div>
+              <div class="form-group"><label class="form-label" for="c-in-biz">Business Info</label><input type="text" id="c-in-biz" class="form-control" value="Digital Software"></div>
+            </div>
+            <div class="form-group mt-3"><label class="form-label" for="c-in-service">Website Requirement</label><textarea id="c-in-service" class="form-control" rows="2">Custom Web App and Landing Page Redesign.</textarea></div>
+            <div class="form-actions mt-3">
+              <button type="button" class="btn btn-primary btn-save-profile" data-role="customer">Save Profile</button>
+              <button type="button" class="btn btn-outline btn-cancel-edit" data-target="c-edit">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 2. STUDENT PROFILE -->
+        <div class="profile-container hidden" id="prof-student">
+          <div class="profile-header">
+            <div class="avatar-circle stud">SC</div>
+            <div class="profile-meta">
+              <h3 id="s-disp-name">Sophia Chen</h3>
+              <p class="subtext" id="s-disp-sub">Student • Toronto, Canada</p>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm btn-toggle-edit" data-target="s-edit">Edit Profile</button>
+          </div>
+
+          <div class="profile-view-box" id="s-view">
+            <div class="profile-grid">
+              <div><strong>Email:</strong> <span id="s-disp-email">sophia.chen@univ.edu</span></div>
+              <div><strong>Phone:</strong> <span id="s-disp-phone">+1 (647) 555-0192</span></div>
+              <div><strong>Education / Workplace:</strong> <span id="s-disp-edu">Univ of Toronto (CS)</span></div>
+              <div><strong>Skills:</strong> <span id="s-disp-skills">HTML5, CSS3, JavaScript, Figma</span></div>
+            </div>
+            <div class="mt-3">
+              <strong>Portfolio Info:</strong>
+              <p id="s-disp-about">Passionate computer science student creating clean responsive web interfaces.</p>
+            </div>
+          </div>
+
+          <form id="s-edit" class="profile-edit-form hidden" onsubmit="return false;">
+            <div class="profile-grid">
+              <div class="form-group"><label class="form-label" for="s-in-name">Full Name</label><input type="text" id="s-in-name" class="form-control" value="Sophia Chen"></div>
+              <div class="form-group"><label class="form-label" for="s-in-email">Email</label><input type="email" id="s-in-email" class="form-control" value="sophia.chen@univ.edu"></div>
+              <div class="form-group"><label class="form-label" for="s-in-phone">Phone</label><input type="tel" id="s-in-phone" class="form-control" value="+1 (647) 555-0192"></div>
+              <div class="form-group"><label class="form-label" for="s-in-edu">Education / Workplace</label><input type="text" id="s-in-edu" class="form-control" value="Univ of Toronto (CS)"></div>
+              <div class="form-group"><label class="form-label" for="s-in-skills">Skills</label><input type="text" id="s-in-skills" class="form-control" value="HTML5, CSS3, JavaScript, Figma"></div>
+            </div>
+            <div class="form-group mt-3"><label class="form-label" for="s-in-about">Portfolio Info</label><textarea id="s-in-about" class="form-control" rows="2">Passionate computer science student creating clean responsive web interfaces.</textarea></div>
+            <div class="form-actions mt-3">
+              <button type="button" class="btn btn-primary btn-save-profile" data-role="student">Save Profile</button>
+              <button type="button" class="btn btn-outline btn-cancel-edit" data-target="s-edit">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 3. DEVELOPER PROFILE -->
+        <div class="profile-container hidden" id="prof-developer">
+          <div class="profile-header">
+            <div class="avatar-circle dev">AM</div>
+            <div class="profile-meta">
+              <h3 id="d-disp-name">Alex Morgan</h3>
+              <p class="subtext" id="d-disp-title">Senior Web Developer • Austin, TX</p>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm btn-toggle-edit" data-target="d-edit">Edit Profile</button>
+          </div>
+
+          <div class="profile-view-box" id="d-view">
+            <div class="profile-grid">
+              <div><strong>Email:</strong> <span id="d-disp-email">alex.morgan@devstudio.com</span></div>
+              <div><strong>Phone:</strong> <span id="d-disp-phone">+1 (512) 555-8839</span></div>
+              <div><strong>Experience:</strong> <span id="d-disp-exp">6+ Years</span></div>
+              <div><strong>Starting Price:</strong> <span id="d-disp-price">$45 / Hour</span></div>
+            </div>
+            <div class="mt-3">
+              <strong>Skills & Portfolio:</strong>
+              <p id="d-disp-skills">HTML5/CSS3, Vanilla JavaScript, UI/UX, Speed Optimization</p>
+            </div>
+          </div>
+
+          <form id="d-edit" class="profile-edit-form hidden" onsubmit="return false;">
+            <div class="profile-grid">
+              <div class="form-group"><label class="form-label" for="d-in-name">Full Name</label><input type="text" id="d-in-name" class="form-control" value="Alex Morgan"></div>
+              <div class="form-group"><label class="form-label" for="d-in-title">Professional Role</label><input type="text" id="d-in-title" class="form-control" value="Senior Web Developer"></div>
+              <div class="form-group"><label class="form-label" for="d-in-email">Email</label><input type="email" id="d-in-email" class="form-control" value="alex.morgan@devstudio.com"></div>
+              <div class="form-group"><label class="form-label" for="d-in-phone">Phone</label><input type="tel" id="d-in-phone" class="form-control" value="+1 (512) 555-8839"></div>
+              <div class="form-group"><label class="form-label" for="d-in-exp">Experience</label><input type="text" id="d-in-exp" class="form-control" value="6+ Years"></div>
+              <div class="form-group"><label class="form-label" for="d-in-price">Starting Price</label><input type="text" id="d-in-price" class="form-control" value="$45 / Hour"></div>
+            </div>
+            <div class="form-group mt-3"><label class="form-label" for="d-in-skills">Skills & Portfolio</label><textarea id="d-in-skills" class="form-control" rows="2">HTML5/CSS3, Vanilla JavaScript, UI/UX, Speed Optimization</textarea></div>
+            <div class="form-actions mt-3">
+              <button type="button" class="btn btn-primary btn-save-profile" data-role="developer">Save Profile</button>
+              <button type="button" class="btn btn-outline btn-cancel-edit" data-target="d-edit">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript File Connection -->
+  <script src="./script.js"></script>
 </body>
 </html>
